@@ -41,13 +41,14 @@ app.get("/compose", function (req, res) {
 
 app.get(`/posts/:post_name`, function (req, res) {  
   const requestedTitle = _.lowerCase(req.params.post_name);
-  console.log(requestedTitle);
   posts.forEach(function (post) {  
     const blogTitle = _.lowerCase(post.title);
+    const postContent = post.postBody;
     if (requestedTitle === blogTitle) {
-      console.log("Match Found!");
-    } else {
-      console.log("Match not found");
+      res.render("post", {
+        postTitle: _.upperFirst(blogTitle),
+        postUserContent: postContent
+      });
     }
   }); 
 });

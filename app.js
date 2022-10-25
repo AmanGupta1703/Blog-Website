@@ -2,7 +2,9 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const _ = require("lodash");
 const ejs = require("ejs");
+const { lowerFirst, lowerCase, kebabCase } = require("lodash");
 
 // Global Variables
 const posts = [];
@@ -37,6 +39,21 @@ app.get("/compose", function (req, res) {
   res.render("compose");
 });
 
+app.get(`/posts/:post_name`, function (req, res) {  
+  const requestedTitle = _.lowerCase(req.params.post_name);
+  console.log(requestedTitle);
+  posts.forEach(function (post) {  
+    const blogTitle = _.lowerCase(post.title);
+    if (requestedTitle === blogTitle) {
+      console.log("Match Found!");
+    } else {
+      console.log("Match not found");
+    }
+  }); 
+});
+
+
+// Post Request
 app.post("/compose", function (req, res) {
   const newPostTitle = req.body.title;
   const newPostBody = req.body.postBody;
